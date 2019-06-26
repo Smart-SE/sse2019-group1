@@ -1,3 +1,2 @@
 .application.json
-lib/*
-!lib/requirements.txt
+lambda-payloads.json
