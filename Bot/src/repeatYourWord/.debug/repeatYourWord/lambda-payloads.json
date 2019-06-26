@@ -1,1 +1,23 @@
-{}
+{
+    "repeatYourWord": {
+        "lambda": {
+            "events": [
+                {
+                    "type": "message",
+                    "replyToken": "39c09218348b465894c12ea1ed40d918",
+                    "source": {
+                        "userId": "U778fe1b45d151f551a8feed3959d82f3",
+                        "type": "user"
+                    },
+                    "timestamp": 1561515319119,
+                    "message": {
+                        "type": "text",
+                        "id": "10106366163338",
+                        "text": "てすと"
+                    }
+                }
+            ],
+            "destination": "Uabf8d8f698659e7ee99dcac364336cba"
+        }
+    }
+}
