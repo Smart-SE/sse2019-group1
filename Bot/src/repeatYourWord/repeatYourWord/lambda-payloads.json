@@ -1,0 +1,12 @@
+{
+    "repeatYourWord": {
+        "lambda": {
+            "headers": {
+                "X-Line-Signature": "test"
+            },
+            "body": {
+                "text": "test"
+            }
+        }
+    }
+}

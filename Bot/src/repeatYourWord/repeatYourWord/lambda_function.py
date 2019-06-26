@@ -28,6 +28,8 @@ handler = WebhookHandler(channel_secret)
 
 
 def lambda_handler(event, context):
+    print(event)
+    print(context)
     signature = event["headers"]["X-Line-Signature"]
     body = event["body"]
     ok_json = {"isBase64Encoded": False,
