@@ -1,12 +1,12 @@
 import os
 import sys
-from linebot import (
+from lib.linebot import (
     LineBotApi, WebhookHandler
 )
-from linebot.models import (
+from lib.linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from linebot.exceptions import (
+from lib.linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 import logging

@@ -1,2 +1,3 @@
 .application.json
 lib
+!lib/requirements.txt
