@@ -14,7 +14,7 @@
 - AWS Lambda, API Gateway
 
 ### 開発環境
-- Cloud 9
+- Amazon Cloud 9
 
 ### アーキテクチャ
 ![アーキテクチャ](https://github.com/Smart-SE/sse2019-group1/blob/master/images/architecture.png "アーキテクチャ")
