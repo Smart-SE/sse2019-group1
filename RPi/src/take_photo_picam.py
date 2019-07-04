@@ -6,12 +6,17 @@ from datetime import datetime
 
 dir_path = "./img/"
 
-#Take Picture
-camera = picamera.PiCamera()
-
-try:
-    file_name = "{0}{1}.jpeg".format(dir_path, datetime.now().strftime("%Y%m%d%H%M%S"))
-    camera.capture(file_name)
+def take_photo(file_name):
+    try:
     
-except KeyboardInterrupt:
-    pass
+        #Take Picture
+        camera = picamera.PiCamera()
+        camera.capture(file_name)
+
+    except KeyboardInterrupt:
+        pass
+    
+
+if __name__ == "__main__":
+    file_name = "{0}{1}.jpeg".format(dir_path, datetime.now().strftime("%Y%m%d%H%M%S"))
+    take_photo(file_name)
