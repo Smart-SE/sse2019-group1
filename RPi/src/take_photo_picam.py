@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
 import RPi.GPIO as GPIO
 import picamera
 from datetime import datetime
