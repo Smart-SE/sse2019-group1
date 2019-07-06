@@ -41,13 +41,27 @@ def lambda_handler(event, context):
     # 送信されたtext本文
     message = event["events"][0]["message"]["text"]
 
+    # 必要な情報
+    # beebotteのトークン？
+
     ###
     # ここに実装
     ###
+
+    # 1. messageのパース
+    # 2. S3 Pathの生成
+    s3path = reply_token + "/" + message
+    # 3. JSON Messageの生成
+    json_message = "{\"key\", \"value\"}"
+    # 4a. Beebotteへメッセージ送信
+    # 4b. 親Lambdaへメッセージ送信
 
     # line botへのメッセージの返信。local test中はreply_tokenの更新が大変なのでreturnするなりしてテストしたほうが良いです。
     line_bot_api.reply_message(reply_token, TextSendMessage(text=message))
     
     return "reply complete"
     
-    
+## memo
+### 定期実行で呼び出す。
+### 親Lambdaからくるメッセージ
+#### 特になし！！！！
