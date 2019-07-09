@@ -2,44 +2,46 @@
 
 import paho.mqtt.client as mqtt
 import json
-import requests
 from take_photo_picam import take_photo
+from upload_s3 import upload_img_to_s3
 import os
-import subprocess
 import traceback
-import logging
+import logger as log
 
-logger = logging.getLogger(__name__)
-fmt = "%(asctime)s %(levelname)s %(name)s :%(message)s"
-logging.basicConfig(level=logging.DEBUG, format=fmt)
 TOKEN = None
-with open('bebotte_token','r') as f:
+with open('bebotte_token', 'r') as f:
     TOKEN = f.readlines()[0]
-
 TOPIC = "IoT_Refrigerator/take_req"
 HOSTNAME = "mqtt.beebotte.com"
 PORT = 8883
 CACERT = "mqtt.beebotte.com.pem"
-PROFILE_NAME = "sse2019-group1"
-SEND_COMMAND_TEMPLATE = "aws s3 cp {0} {1} --profile={2}"
-DEBUG = True
+REQ_TYPE = 'req_type'
+BUCKET_NAME = 's3_bucket'
 
-def send_img_to_s3(file_name, bucket_name):
-    send_command = SEND_COMMAND_TEMPLATE.format(file_name, bucket_name, PROFILE_NAME)
-    if DEBUG:
-        logger.info(send_command)
-    else:
-        logger.info(send_command)
-        subprocess.call(send_command, shell=True)
-    return 
 
-def on_connect(client, userdata, flags, respons_code):
+def on_connect(client: object, userdata: object, flags, respons_code: int):
+    """Connection event handler
+
+    Arguments:
+        client {object} -- mqtt clinet
+        userdata {object} -- unknown
+        flags {[type]} -- unknown
+        respons_code {int} -- status of connection
+    """
     print('status {0}'.format(respons_code))
-    logger.info('status {0}'.format(respons_code))
+    log.Info('status {0}'.format(respons_code))
     client.subscribe(TOPIC)
-    logger.info("start to subscribe: " + TOPIC)
+    log.Info("start to subscribe: " + TOPIC)
 
-def on_message(client, userdata, msg):
+
+def on_message(client: object, userdata: object, msg: str) -> None:
+    """Message recieve event handler
+
+    Arguments:
+        client {object} -- mqtt clinet
+        userdata {object} -- unknown
+        msg {str} -- recieved message
+    """
     try:
         data = json.loads(msg.payload.decode("utf-8"))["data"]
         if type(data) is str:
@@ -48,25 +50,34 @@ def on_message(client, userdata, msg):
         else:
             data = data
 
-        data = {key:value.strip() for key, value in data.items()}
-        action = data['req_type']
-        bucket_name = data['s3_bucket']
-        logging.info("aciton='{0}', bucket_name='{1}'".format(action, bucket_name))
+        data = {key: value.strip() for key, value in data.items()}
+        action = data[REQ_TYPE]
+
+        if BUCKET_NAME in data:
+            bucket_name = data[BUCKET_NAME]
+        else:
+            bucket_name = None
+
+        log.Info("aciton='{0}', bucket_name='{1}'".format(action, bucket_name))
         if action == "take_photo":
-            file_name = "tmp.jpeg"
+            file_name = "tmp.jpg"
             take_photo(file_name)
             if os.path.exists(file_name):
-                send_img_to_s3(file_name, bucket_name)
+                upload_img_to_s3(file_name, bucket_name)
+                log.Info("finish process for a take_req")
             else:
-                logging.error("failed to take photo")
+                log.Error("failed to take photo")
         else:
-            logging.warn(data)
-    except:
+            log.Warn(data)
+    except Exception:
         traceback.print_exc()
-client = mqtt.Client()
-client.username_pw_set("token:%s"%TOKEN)
-client.on_connect = on_connect
-client.on_message = on_message
-client.tls_set(CACERT)
-client.connect(HOSTNAME, port=PORT, keepalive=60)
-client.loop_forever()
+
+if __name__ == "__main__":
+    client = mqtt.Client()
+    client.username_pw_set("token:%s" % TOKEN)
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    client.tls_set(CACERT)
+    client.connect(HOSTNAME, port=PORT, keepalive=60)
+    client.loop_forever()
