@@ -20,9 +20,9 @@ def upload_img_to_s3(file_name: str, bucket_name: str = None) -> None:
         None -- return value is nothing
     """
     if not(bucket_name is None):
-        send_command = SEND_COMMAND_TEMPLATE.format(bucket_name, file_name, PROFILE_NAME)
+        send_command = SEND_COMMAND_TEMPLATE.format(file_name, bucket_name, PROFILE_NAME)
     else:
-        send_command = SEND_COMMAND_TEMPLATE.format(DEFAULT_BUCKET, file_name, PROFILE_NAME)
+        send_command = SEND_COMMAND_TEMPLATE.format(file_name, DEFAULT_BUCKET, PROFILE_NAME)
     log.Info(send_command)
     subprocess.call(send_command, shell=True)
     return
