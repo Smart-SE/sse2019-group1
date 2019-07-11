@@ -15,15 +15,14 @@ def lambda_handler(event, context):
 
     # 1. JSON Messageの生成
     json_message = { 'data': [{
-            'req_type': 'take_photo',
-            's3_bucket': 'xxxx'}]
+            'req_type': 'take_photo'}]
             }
 
     # 2a. Beebotteへメッセージ送信
     url = "https://api.beebotte.com/v1/data/publish/IoT_Refrigerator/take_req?token=token_nKF6BPghiGhTwZ1L"
     response = requests.post(url, data=json.dumps(json_message),headers={'Content-Type': 'application/json'})
     # 2b. 親Lambdaへメッセージ送信
-    return response
+    return response.json()
     
 ## memo
 ### 定期実行で呼び出す。
