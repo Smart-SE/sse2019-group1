@@ -28,7 +28,7 @@ s3 = boto3.resource('s3')
 
 def send_img_to_s3(file_name, bucket_name):
     try:
-      s3.Bucket(bucket_name).upload_file(file_name, 'tmp.jpg')
+      s3.Bucket(bucket_name).upload_file(file_name, file_name)
     except boto3.exceptions.S3UploadFialedError:
       logging.error("upload failed to S3")
 
