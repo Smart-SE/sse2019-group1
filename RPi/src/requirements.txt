@@ -1,0 +1,16 @@
+boto3==1.9.186
+botocore==1.12.186
+certifi==2019.6.16
+chardet==3.0.4
+docutils==0.14
+idna==2.8
+jmespath==0.9.4
+paho-mqtt==1.4.0
+picamera==1.13
+pkg-resources==0.0.0
+python-dateutil==2.8.0
+requests==2.22.0
+RPi.GPIO==0.6.5
+s3transfer==0.2.1
+six==1.12.0
+urllib3==1.25.3
