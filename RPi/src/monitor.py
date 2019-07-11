@@ -44,11 +44,13 @@ def on_message(client: object, userdata: object, msg: str) -> None:
     """
     try:
         data = json.loads(msg.payload.decode("utf-8"))["data"]
+        log.Info(data)
         if type(data) is str:
             # データが文字列で渡されてるので、そこだけ再度、オブジェクト化
             data = json.loads(data)
+            
         else:
-            data = data
+            data = data[0]
 
         data = {key: value.strip() for key, value in data.items()}
         action = data[REQ_TYPE]
