@@ -8,6 +8,7 @@ import os
 import subprocess
 import traceback
 import logging
+import boto3
 
 logger = logging.getLogger(__name__)
 fmt = "%(asctime)s %(levelname)s %(name)s :%(message)s"
@@ -23,15 +24,13 @@ CACERT = "mqtt.beebotte.com.pem"
 PROFILE_NAME = "sse2019-group1"
 SEND_COMMAND_TEMPLATE = "aws s3 cp {0} {1} --profile={2}"
 DEBUG = True
+s3 = boto3.resource('s3')
 
 def send_img_to_s3(file_name, bucket_name):
-    send_command = SEND_COMMAND_TEMPLATE.format(file_name, bucket_name, PROFILE_NAME)
-    if DEBUG:
-        logger.info(send_command)
-    else:
-        logger.info(send_command)
-        subprocess.call(send_command, shell=True)
-    return 
+    try:
+      s3.Bucket(bucket_name).upload_file(file_name, 'tmp.jpg')
+    except boto3.exceptions.S3UploadFialedError:
+      logging.error("upload failed to S3")
 
 def on_connect(client, userdata, flags, respons_code):
     print('status {0}'.format(respons_code))
