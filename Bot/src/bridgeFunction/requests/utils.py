@@ -975,3 +975,4 @@ def rewind_body(prepared_request):
                                         "body for redirect.")
     else:
         raise UnrewindableBodyError("Unable to rewind request body for redirect.")
+

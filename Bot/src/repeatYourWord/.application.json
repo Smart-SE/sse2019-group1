@@ -1,0 +1,13 @@
+{
+    "ApplicationName": "repeatYourWord",
+    "DeploymentMethod": "cloudformation",
+    "Functions": {
+        "repeatYourWord": {
+            "PhysicalId": {
+                "ap-northeast-1": "cloud9-repeatYourWord-repeatYourWord-1EROC252BGW5D"
+            }
+        }
+    },
+    "RestApiId": "w08wizp4cl",
+    "StackName": "cloud9-repeatYourWord"
+}

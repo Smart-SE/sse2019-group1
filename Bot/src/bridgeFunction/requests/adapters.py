@@ -531,3 +531,4 @@ class HTTPAdapter(BaseAdapter):
                 raise
 
         return self.build_response(request, resp)
+      
