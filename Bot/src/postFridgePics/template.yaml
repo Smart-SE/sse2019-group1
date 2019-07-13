@@ -5,9 +5,9 @@ Resources:
   postFridgePics:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: postFridgePics/lambda_function.lambda_handler
-      Runtime: python3.6
       Description: ''
+      Handler: lambda_function.lambda_handler
       MemorySize: 128
-      Timeout: 15
-      CodeUri: .debug/
+      Role: 'arn:aws:iam::058683116442:role/LambdaRole'
+      Runtime: python3.7
+      Timeout: 30
