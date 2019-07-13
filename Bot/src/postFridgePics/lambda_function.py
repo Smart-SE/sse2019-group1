@@ -12,7 +12,8 @@ import requests
 from time import sleep
 
 AWS_S3_BUCKET_NAME = 'sse02-group1-fridgepics'
-s3 = boto3.resource('s3')      # ③S3オブジェクトを取得
+AWS_S3_KEY_NAME = 'tmp.jpg'
+client = boto3.client('s3')
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -61,10 +62,7 @@ def lambda_handler(request, context):
                 ]
             }
         else:
-            bucket = s3.Bucket(AWS_S3_BUCKET_NAME)
-            print(bucket.name)
-            print(bucket.objects.all())
-            print([obj_summary.key for obj_summary in bucket.objects.all()])
+            file = client.get_object(Bucket = AWS_S3_BUCKET_NAME, Key = AWS_S3_KEY_NAME)
             body = {
                 'replyToken': event['replyToken'],
                 'messages': [
