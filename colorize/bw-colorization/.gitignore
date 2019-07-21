@@ -1,0 +1,8 @@
+.DS_Store
+.env
+tmp.jpg
+tmp_colorized.jpg
+images
+model
+bw2*
+__pycache__
